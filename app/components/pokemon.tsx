@@ -28,6 +28,12 @@ const Pokemon = ({id, index, removePokemon}: pokemonProps) => {
                             setIsSelected(true)
                         }
                     )
+            } else {
+                setName("--")
+                setType1("NONE")
+                setType2IfPresent(["NONE"])
+                setImageUrl("/images/egg.png")
+                setIsSelected(false)
             }
         } catch (error) {
 

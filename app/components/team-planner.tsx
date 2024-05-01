@@ -18,8 +18,6 @@ const TeamPlanner = () => {
 
     function removePokemonFromTeamController(index: number) {
         removePokemon(index);
-        console.log("team planner:")
-        console.log(team)
 
         // This is a hack.
         // The component is not rerendering on the above "removePokemon()"

@@ -8,7 +8,6 @@ interface selectionMenuProps {
 
 const SelectionMenu = ({addPokemon = (id: string) => {} }) => {
     function addPokemonToTeam(id: string) {
-        console.log("Click processed in selectionMenu")
         addPokemon(id);
     }
 
@@ -51,7 +50,7 @@ const SelectionMenu = ({addPokemon = (id: string) => {} }) => {
                     </div>
                     <div className="flex items-center justify-center w-full pb-2 py-4">
                         <button className="bg-blue-500 text-white font-semibold rounded-md px-4"
-                                onClick={() => addPokemonToTeam("6.6")}>Add to Team
+                                onClick={() => addPokemon("6.6")}>Add to Team
                         </button>
                     </div>
                 </div>

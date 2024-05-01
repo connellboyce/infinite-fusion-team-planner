@@ -1,6 +1,4 @@
 import React, {useState} from "react";
-import Pokemon from "@/app/components/pokemon";
-import pokemon from "@/app/components/pokemon";
 
 const useTeamController = (): [({id: string}[]), (id: string)=>void, (index: number)=>void] => {
     const [pokemonArray, setPokemonArray] =
@@ -31,8 +29,6 @@ const useTeamController = (): [({id: string}[]), (id: string)=>void, (index: num
         let onlySelectedPokemon = pokemonArray.filter((v: { id: string; }) => v.id !== "");
         onlySelectedPokemon.splice(index, 1);
         setPokemonArray(onlySelectedPokemon);
-        console.log(pokemonArray);
-        console.log(onlySelectedPokemon);
     }
 
     function normalizePokemonArray(pokemonArray: {id: string}[]) {
