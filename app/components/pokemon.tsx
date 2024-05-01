@@ -3,23 +3,30 @@ import React, {useEffect, useState} from "react";
 import Pokeball from "@/app/components/pokeball";
 import SpeciesCard from "@/app/components/species-card";
 
-const Pokemon = ({id}: { id: string }) => {
-    const [isLoading, setLoading] = useState(true);
-    const [name, setName] = useState("");
-    const [type1, setType1] = useState("???");
-    const [type2, setType2] = useState("???");
+const Pokemon = ({id}: { id: string | undefined }, removePokemon: {removePokemon: Function}) => {
+    const [isSelected, setIsSelected] = useState(false);
+    const [name, setName] = useState("--");
+    const [type1, setType1] = useState("NONE");
+    const [type2, setType2] = useState("NONE");
     const [imageUrl, setImageUrl] = useState("/images/egg.png");
 
     useEffect(() => {
-        fetch(`https://if.daena.me/api/v0/dex/` + {id}.id + `.json`)
-            .then(res => res.json())
-            .then((data) => {
-                setName(data?.pokemon.name)
-                setType1(data?.pokemon.type[0])
-                setType2IfPresent(data?.pokemon.type)
-                setImageUrl(data?.sprites[0].image_url)
-            })
+        try {
+            if({id}.id !== "") {
+                fetch(`https://if.daena.me/api/v0/dex/` + {id}.id + `.json`)
+                    .then(res => res.json())
+                    .then((data) => {
+                            setName(data?.pokemon.name)
+                            setType1(data?.pokemon.type[0])
+                            setType2IfPresent(data?.pokemon.type)
+                            setImageUrl(data?.sprites[0].image_url)
+                            setIsSelected(true)
+                        }
+                    )
+            }
+        } catch (error) {
 
+        }
     }, [id]);
 
     const setType2IfPresent = (type: string[]) => {
@@ -66,17 +73,19 @@ const Pokemon = ({id}: { id: string }) => {
         } else if (type === "WATER") {
             return("#539ae2");
         } else {
-            return "#f3f3f3";
+            return "#68A090";
         }
     }
 
     return (
         <div className="px-4 pb-8 pt-12">
-            <div>
-                <Pokeball color1={mapTypeToColor(type1)} color2={mapTypeToColor(type2)} imageUrl={imageUrl}/>
-            </div>
-            <div className="py-4">
-                <SpeciesCard name={name} color={mapTypeToColor(type1)} type1={type1} type2={type2}/>
+            <div className={isSelected ? "cursor-not-allowed hover:animate-shake": ""}>
+                <div>
+                    <Pokeball color1={mapTypeToColor(type1)} color2={mapTypeToColor(type2)} imageUrl={imageUrl}/>
+                </div>
+                <div className="py-4">
+                    <SpeciesCard name={name} color={mapTypeToColor(type1)} type1={type1} type2={type2}/>
+                </div>
             </div>
         </div>
     )

@@ -15,13 +15,15 @@ const SpeciesCard = ({ name, color, type1, type2} : {name: string, color: string
                     height="86"
                     className="w-20"
                 />
-                <Image
-                    src={type2ImageSrc}
-                    alt={type2}
-                    width="229"
-                    height="86"
-                    className="w-20"
-                />
+                { type1 !== type2 && (
+                    <Image
+                        src={type2ImageSrc}
+                        alt={type2}
+                        width="229"
+                        height="86"
+                        className="w-20"
+                    />
+                )}
             </div>
         </div>
     )
