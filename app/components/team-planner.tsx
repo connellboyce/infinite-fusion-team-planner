@@ -6,23 +6,30 @@ import useTeamController from "@/app/components/team-controller";
 
 const TeamPlanner = () => {
     const [team, addPokemon, removePokemon] = useTeamController();
+    const [refresh, setRefresh] = useState(false);
 
-    function normalizePokemonArray(pokemonArray: {id: string}[]) {
-        if (pokemonArray.length < 6) {
-            while (pokemonArray.length < 6) {
-                pokemonArray.push({id: ""});
-            }
-        }
-        if (pokemonArray.length > 6) {
+    function addPokemonToTeamController(id: string ) {
+        addPokemon(id);
 
-        }
-        return pokemonArray;
+        // This is a hack.
+        // The component is not rerendering on the above "addPokemon()"
+        setRefresh(!refresh);
+    }
+
+    function removePokemonFromTeamController(index: number) {
+        removePokemon(index);
+        console.log("team planner:")
+        console.log(team)
+
+        // This is a hack.
+        // The component is not rerendering on the above "removePokemon()"
+        setRefresh(!refresh);
     }
 
     return (
         <section>
-            <Team pokemonArray={normalizePokemonArray(team) } />
-            <SelectionMenu />
+            <Team pokemonArray={ team } removePokemon={ removePokemonFromTeamController } />
+            <SelectionMenu addPokemon={addPokemonToTeamController} />
         </section>
     )
 }

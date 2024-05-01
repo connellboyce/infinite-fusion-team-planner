@@ -3,7 +3,12 @@ import React, {useEffect, useState} from "react";
 import Pokeball from "@/app/components/pokeball";
 import SpeciesCard from "@/app/components/species-card";
 
-const Pokemon = ({id}: { id: string | undefined }, removePokemon: {removePokemon: Function}) => {
+interface pokemonProps {
+    removePokemon: (index: number) => void,
+    id: string | undefined,
+    index: number
+}
+const Pokemon = ({id, index, removePokemon}: pokemonProps) => {
     const [isSelected, setIsSelected] = useState(false);
     const [name, setName] = useState("--");
     const [type1, setType1] = useState("NONE");
@@ -12,7 +17,7 @@ const Pokemon = ({id}: { id: string | undefined }, removePokemon: {removePokemon
 
     useEffect(() => {
         try {
-            if({id}.id !== "") {
+            if({id}.id !== undefined && {id}.id !== "") {
                 fetch(`https://if.daena.me/api/v0/dex/` + {id}.id + `.json`)
                     .then(res => res.json())
                     .then((data) => {
@@ -49,7 +54,9 @@ const Pokemon = ({id}: { id: string | undefined }, removePokemon: {removePokemon
         } else if (type === "FAIRY") {
             return("#e397d1");
         } else if (type === "FIGHTING") {
-            return("#cb5f48");
+            return ("#cb5f48");
+        } else if (type === "FIRE") {
+            return("#ea7a3c");
         } else if (type === "FLYING") {
             return("#7da6de");
         } else if (type === "GHOST") {
@@ -77,9 +84,15 @@ const Pokemon = ({id}: { id: string | undefined }, removePokemon: {removePokemon
         }
     }
 
+    function removeIfSelected() {
+        if (isSelected) {
+            removePokemon(index);
+        }
+    }
+
     return (
         <div className="px-4 pb-8 pt-12">
-            <div className={isSelected ? "cursor-not-allowed hover:animate-shake": ""}>
+            <div className={isSelected ? "cursor-not-allowed hover:animate-shake": ""} onClick={removeIfSelected}>
                 <div>
                     <Pokeball color1={mapTypeToColor(type1)} color2={mapTypeToColor(type2)} imageUrl={imageUrl}/>
                 </div>

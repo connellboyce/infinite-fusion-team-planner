@@ -1,7 +1,8 @@
 import React, {useState} from "react";
 import Pokemon from "@/app/components/pokemon";
+import pokemon from "@/app/components/pokemon";
 
-const useTeamController = () => {
+const useTeamController = (): [({id: string}[]), (id: string)=>void, (index: number)=>void] => {
     const [pokemonArray, setPokemonArray] =
         useState(
             [
@@ -21,24 +22,32 @@ const useTeamController = () => {
 
     function addPokemon(id: string) {
         let newPokemon = { id: id };
-        pokemonArray.push(newPokemon)
-        setPokemonArray(pokemonArray);
+        let onlySelectedPokemon = pokemonArray.filter((v: { id: string; }) => v.id !== "");
+        onlySelectedPokemon.push(newPokemon)
+        setPokemonArray(onlySelectedPokemon);
     }
 
-    function removePokemon(id: string) {}
+    function removePokemon(index: number) {
+        let onlySelectedPokemon = pokemonArray.filter((v: { id: string; }) => v.id !== "");
+        onlySelectedPokemon.splice(index, 1);
+        setPokemonArray(onlySelectedPokemon);
+        console.log(pokemonArray);
+        console.log(onlySelectedPokemon);
+    }
 
+    function normalizePokemonArray(pokemonArray: {id: string}[]) {
+        if (pokemonArray.length < 6) {
+            while (pokemonArray.length < 6) {
+                pokemonArray.push({id: ""});
+            }
+        }
+        if (pokemonArray.length > 6) {
+            pokemonArray.shift()
+        }
+        return pokemonArray;
+    }
 
-
-    // function removePokemon(id: string) {
-    //     var modifiedPokemonArray = pokemonArray;
-    //     var specifiedPokemon = pokemonArray.indexOf({id: id});
-    //     if (specifiedPokemon > -1) {
-    //         modifiedPokemonArray.splice(specifiedPokemon, 1);
-    //     }
-    //     setPokemonArray(modifiedPokemonArray);
-    // }
-
-    return [pokemonArray, addPokemon, removePokemon ]
+    return [normalizePokemonArray(pokemonArray), addPokemon, removePokemon]
 }
 
 export default useTeamController;
