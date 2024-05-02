@@ -3,23 +3,41 @@ import React, {useEffect, useState} from "react";
 import Pokeball from "@/app/components/pokeball";
 import SpeciesCard from "@/app/components/species-card";
 
-const Pokemon = ({id}: { id: string }) => {
-    const [isLoading, setLoading] = useState(true);
-    const [name, setName] = useState("");
-    const [type1, setType1] = useState("???");
-    const [type2, setType2] = useState("???");
+interface pokemonProps {
+    removePokemon: (index: number) => void,
+    id: string | undefined,
+    index: number
+}
+const Pokemon = ({id, index, removePokemon}: pokemonProps) => {
+    const [isSelected, setIsSelected] = useState(false);
+    const [name, setName] = useState("--");
+    const [type1, setType1] = useState("NONE");
+    const [type2, setType2] = useState("NONE");
     const [imageUrl, setImageUrl] = useState("/images/egg.png");
 
     useEffect(() => {
-        fetch(`https://if.daena.me/api/v0/dex/` + {id}.id + `.json`)
-            .then(res => res.json())
-            .then((data) => {
-                setName(data?.pokemon.name)
-                setType1(data?.pokemon.type[0])
-                setType2IfPresent(data?.pokemon.type)
-                setImageUrl(data?.sprites[0].image_url)
-            })
+        try {
+            if({id}.id !== undefined && {id}.id !== "") {
+                fetch(`https://if.daena.me/api/v0/dex/` + {id}.id + `.json`)
+                    .then(res => res.json())
+                    .then((data) => {
+                            setName(data?.pokemon.name)
+                            setType1(data?.pokemon.type[0])
+                            setType2IfPresent(data?.pokemon.type)
+                            setImageUrl(data?.sprites[0].image_url)
+                            setIsSelected(true)
+                        }
+                    )
+            } else {
+                setName("--")
+                setType1("NONE")
+                setType2IfPresent(["NONE"])
+                setImageUrl("/images/egg.png")
+                setIsSelected(false)
+            }
+        } catch (error) {
 
+        }
     }, [id]);
 
     const setType2IfPresent = (type: string[]) => {
@@ -42,7 +60,9 @@ const Pokemon = ({id}: { id: string }) => {
         } else if (type === "FAIRY") {
             return("#e397d1");
         } else if (type === "FIGHTING") {
-            return("#cb5f48");
+            return ("#cb5f48");
+        } else if (type === "FIRE") {
+            return("#ea7a3c");
         } else if (type === "FLYING") {
             return("#7da6de");
         } else if (type === "GHOST") {
@@ -66,17 +86,25 @@ const Pokemon = ({id}: { id: string }) => {
         } else if (type === "WATER") {
             return("#539ae2");
         } else {
-            return "#f3f3f3";
+            return "#68A090";
+        }
+    }
+
+    function removeIfSelected() {
+        if (isSelected) {
+            removePokemon(index);
         }
     }
 
     return (
         <div className="px-4 pb-8 pt-12">
-            <div>
-                <Pokeball color1={mapTypeToColor(type1)} color2={mapTypeToColor(type2)} imageUrl={imageUrl}/>
-            </div>
-            <div className="py-4">
-                <SpeciesCard name={name} color={mapTypeToColor(type1)} type1={type1} type2={type2}/>
+            <div className={isSelected ? "cursor-not-allowed hover:animate-shake": ""} onClick={removeIfSelected}>
+                <div>
+                    <Pokeball color1={mapTypeToColor(type1)} color2={mapTypeToColor(type2)} imageUrl={imageUrl}/>
+                </div>
+                <div className="py-4">
+                    <SpeciesCard name={name} color={mapTypeToColor(type1)} type1={type1} type2={type2}/>
+                </div>
             </div>
         </div>
     )
