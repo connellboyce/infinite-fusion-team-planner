@@ -2,21 +2,7 @@ import React, {useState} from "react";
 
 const useTeamController = (): [({id: string}[]), (id: string)=>void, (index: number)=>void] => {
     const [pokemonArray, setPokemonArray] =
-        useState(
-            [
-                {
-                    id: "324.6",
-                },
-                {
-                    id: "363.263",
-                },
-                {
-                    id: "439.34",
-                },
-                {
-                    id: "12.372",
-                },
-            ]);
+        useState([{id: ""}]);
 
     function addPokemon(id: string) {
         let newPokemon = { id: id };

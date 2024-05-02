@@ -1,57 +1,83 @@
 import React from "react";
-import Pokemon from "@/app/components/pokemon";
 import Image from "next/image";
+import Select from "react-select";
 
 interface selectionMenuProps {
     addPokemon?: (id: string) => void
 }
 
 const SelectionMenu = ({addPokemon = (id: string) => {} }) => {
+    const [head, setHead] = React.useState("");
+    const [body, setBody] = React.useState("");
+
     function addPokemonToTeam(id: string) {
-        addPokemon(id);
+        let fusionId = head + "." + body;
+        addPokemon(fusionId);
     }
+
+    function setHeadValue(head: { target: any; }) {
+        setHead(head.target.value.value);
+    }
+
+    function setBodyValue(body: { target: any; }) {
+        setBody(body.target.value.value);
+    }
+
+    const options = [{"value": "1", "label": "Bulbasaur"}, {"value": "2", "label": "Ivysaur"}, {"value": "3", "label": "Venusaur"}, {"value": "4", "label": "Charmander"}, {"value": "5", "label": "Charmeleon"}, {"value": "6", "label": "Charizard"}, {"value": "7", "label": "Squirtle"}, {"value": "8", "label": "Wartortle"}, {"value": "9", "label": "Blastoise"}, {"value": "10", "label": "Caterpie"}, {"value": "11", "label": "Metapod"}, {"value": "12", "label": "Butterfree"}, {"value": "13", "label": "Weedle"}, {"value": "14", "label": "Kakuna"}, {"value": "15", "label": "Beedrill"}, {"value": "16", "label": "Pidgey"}, {"value": "17", "label": "Pidgeotto"}, {"value": "18", "label": "Pidgeot"}, {"value": "19", "label": "Rattata"}, {"value": "20", "label": "Raticate"}, {"value": "21", "label": "Spearow"}, {"value": "22", "label": "Fearow"}, {"value": "23", "label": "Ekans"}, {"value": "24", "label": "Arbok"}, {"value": "25", "label": "Pikachu"}, {"value": "26", "label": "Raichu"}, {"value": "27", "label": "Sandshrew"}, {"value": "28", "label": "Sandslash"}, {"value": "29", "label": "Nidoran F"}, {"value": "30", "label": "Nidorina"}, {"value": "31", "label": "Nidoqueen"}, {"value": "32", "label": "Nidoran M"}, {"value": "33", "label": "Nidorino"}, {"value": "34", "label": "Nidoking"}, {"value": "35", "label": "Clefairy"}, {"value": "36", "label": "Clefable"}, {"value": "37", "label": "Vulpix"}, {"value": "38", "label": "Ninetales"}, {"value": "39", "label": "Jigglypuff"}, {"value": "40", "label": "Wigglytuff"}, {"value": "41", "label": "Zubat"}, {"value": "42", "label": "Golbat"}, {"value": "43", "label": "Oddish"}, {"value": "44", "label": "Gloom"}, {"value": "45", "label": "Vileplume"}, {"value": "46", "label": "Paras"}, {"value": "47", "label": "Parasect"}, {"value": "48", "label": "Venonat"}, {"value": "49", "label": "Venomoth"}, {"value": "50", "label": "Diglett"}, {"value": "51", "label": "Dugtrio"}, {"value": "52", "label": "Meowth"}, {"value": "53", "label": "Persian"}, {"value": "54", "label": "Psyduck"}, {"value": "55", "label": "Golduck"}, {"value": "56", "label": "Mankey"}, {"value": "57", "label": "Primeape"}, {"value": "58", "label": "Growlithe"}, {"value": "59", "label": "Arcanine"}, {"value": "60", "label": "Poliwag"}, {"value": "61", "label": "Poliwhirl"}, {"value": "62", "label": "Poliwrath"}, {"value": "63", "label": "Abra"}, {"value": "64", "label": "Kadabra"}, {"value": "65", "label": "Alakazam"}, {"value": "66", "label": "Machop"}, {"value": "67", "label": "Machoke"}, {"value": "68", "label": "Machamp"}, {"value": "69", "label": "Bellsprout"}, {"value": "70", "label": "Weepinbell"}, {"value": "71", "label": "Victreebel"}, {"value": "72", "label": "Tentacool"}, {"value": "73", "label": "Tentacruel"}, {"value": "74", "label": "Geodude"}, {"value": "75", "label": "Graveler"}, {"value": "76", "label": "Golem"}, {"value": "77", "label": "Ponyta"}, {"value": "78", "label": "Rapidash"}, {"value": "79", "label": "Slowpoke"}, {"value": "80", "label": "Slowbro"}, {"value": "81", "label": "Magnemite"}, {"value": "82", "label": "Magneton"}, {"value": "83", "label": "Farfetch'd"}, {"value": "84", "label": "Doduo"}, {"value": "85", "label": "Dodrio"}, {"value": "86", "label": "Seel"}, {"value": "87", "label": "Dewgong"}, {"value": "88", "label": "Grimer"}, {"value": "89", "label": "Muk"}, {"value": "90", "label": "Shellder"}, {"value": "91", "label": "Cloyster"}, {"value": "92", "label": "Gastly"}, {"value": "93", "label": "Haunter"}, {"value": "94", "label": "Gengar"}, {"value": "95", "label": "Onix"}, {"value": "96", "label": "Drowzee"}, {"value": "97", "label": "Hypno"}, {"value": "98", "label": "Krabby"}, {"value": "99", "label": "Kingler"}, {"value": "100", "label": "Voltorb"}, {"value": "101", "label": "Electrode"}, {"value": "102", "label": "Exeggcute"}, {"value": "103", "label": "Exeggutor"}, {"value": "104", "label": "Cubone"}, {"value": "105", "label": "Marowak"}, {"value": "106", "label": "Hitmonlee"}, {"value": "107", "label": "Hitmonchan"}, {"value": "108", "label": "Lickitung"}, {"value": "109", "label": "Koffing"}, {"value": "110", "label": "Weezing"}, {"value": "111", "label": "Rhyhorn"}, {"value": "112", "label": "Rhydon"}, {"value": "113", "label": "Chansey"}, {"value": "114", "label": "Tangela"}, {"value": "115", "label": "Kangaskhan"}, {"value": "116", "label": "Horsea"}, {"value": "117", "label": "Seadra"}, {"value": "118", "label": "Goldeen"}, {"value": "119", "label": "Seaking"}, {"value": "120", "label": "Staryu"}, {"value": "121", "label": "Starmie"}, {"value": "122", "label": "Mr. Mime"}, {"value": "123", "label": "Scyther"}, {"value": "124", "label": "Jynx"}, {"value": "125", "label": "Electabuzz"}, {"value": "126", "label": "Magmar"}, {"value": "127", "label": "Pinsir"}, {"value": "128", "label": "Tauros"}, {"value": "129", "label": "Magikarp"}, {"value": "130", "label": "Gyarados"}, {"value": "131", "label": "Lapras"}, {"value": "132", "label": "Ditto"}, {"value": "133", "label": "Eevee"}, {"value": "134", "label": "Vaporeon"}, {"value": "135", "label": "Jolteon"}, {"value": "136", "label": "Flareon"}, {"value": "137", "label": "Porygon"}, {"value": "138", "label": "Omanyte"}, {"value": "139", "label": "Omastar"}, {"value": "140", "label": "Kabuto"}, {"value": "141", "label": "Kabutops"}, {"value": "142", "label": "Aerodactyl"}, {"value": "143", "label": "Snorlax"}, {"value": "144", "label": "Articuno"}, {"value": "145", "label": "Zapdos"}, {"value": "146", "label": "Moltres"}, {"value": "147", "label": "Dratini"}, {"value": "148", "label": "Dragonair"}, {"value": "149", "label": "Dragonite"}, {"value": "150", "label": "Mewtwo"}, {"value": "151", "label": "Mew"}, {"value": "152", "label": "Chikorita"}, {"value": "153", "label": "Bayleef"}, {"value": "154", "label": "Meganium"}, {"value": "155", "label": "Cyndaquil"}, {"value": "156", "label": "Quilava"}, {"value": "157", "label": "Typhlosion"}, {"value": "158", "label": "Totodile"}, {"value": "159", "label": "Croconaw"}, {"value": "160", "label": "Feraligatr"}, {"value": "161", "label": "Sentret"}, {"value": "162", "label": "Furret"}, {"value": "163", "label": "Hoothoot"}, {"value": "164", "label": "Noctowl"}, {"value": "165", "label": "Ledyba"}, {"value": "166", "label": "Ledian"}, {"value": "167", "label": "Spinarak"}, {"value": "168", "label": "Ariados"}, {"value": "169", "label": "Crobat"}, {"value": "170", "label": "Chinchou"}, {"value": "171", "label": "Lanturn"}, {"value": "172", "label": "Pichu"}, {"value": "173", "label": "Cleffa"}, {"value": "174", "label": "Igglybuff"}, {"value": "175", "label": "Togepi"}, {"value": "176", "label": "Togetic"}, {"value": "177", "label": "Natu"}, {"value": "178", "label": "Xatu"}, {"value": "179", "label": "Mareep"}, {"value": "180", "label": "Flaaffy"}, {"value": "181", "label": "Ampharos"}, {"value": "182", "label": "Bellossom"}, {"value": "183", "label": "Marill"}, {"value": "184", "label": "Azumarill"}, {"value": "185", "label": "Sudowoodo"}, {"value": "186", "label": "Politoed"}, {"value": "187", "label": "Hoppip"}, {"value": "188", "label": "Skiploom"}, {"value": "189", "label": "Jumpluff"}, {"value": "190", "label": "Aipom"}, {"value": "191", "label": "Sunkern"}, {"value": "192", "label": "Sunflora"}, {"value": "193", "label": "Yanma"}, {"value": "194", "label": "Wooper"}, {"value": "195", "label": "Quagsire"}, {"value": "196", "label": "Espeon"}, {"value": "197", "label": "Umbreon"}, {"value": "198", "label": "Murkrow"}, {"value": "199", "label": "Slowking"}, {"value": "200", "label": "Misdreavus"}, {"value": "201", "label": "Unown"}, {"value": "202", "label": "Wobbuffet"}, {"value": "203", "label": "Girafarig"}, {"value": "204", "label": "Pineco"}, {"value": "205", "label": "Forretress"}, {"value": "206", "label": "Dunsparce"}, {"value": "207", "label": "Gligar"}, {"value": "208", "label": "Steelix"}, {"value": "209", "label": "Snubbull"}, {"value": "210", "label": "Granbull"}, {"value": "211", "label": "Qwilfish"}, {"value": "212", "label": "Scizor"}, {"value": "213", "label": "Shuckle"}, {"value": "214", "label": "Heracross"}, {"value": "215", "label": "Sneasel"}, {"value": "216", "label": "Teddiursa"}, {"value": "217", "label": "Ursaring"}, {"value": "218", "label": "Slugma"}, {"value": "219", "label": "Magcargo"}, {"value": "220", "label": "Swinub"}, {"value": "221", "label": "Piloswine"}, {"value": "222", "label": "Corsola"}, {"value": "223", "label": "Remoraid"}, {"value": "224", "label": "Octillery"}, {"value": "225", "label": "Delibird"}, {"value": "226", "label": "Mantine"}, {"value": "227", "label": "Skarmory"}, {"value": "228", "label": "Houndour"}, {"value": "229", "label": "Houndoom"}, {"value": "230", "label": "Kingdra"}, {"value": "231", "label": "Phanpy"}, {"value": "232", "label": "Donphan"}, {"value": "233", "label": "Porygon2"}, {"value": "234", "label": "Stantler"}, {"value": "235", "label": "Smeargle"}, {"value": "236", "label": "Tyrogue"}, {"value": "237", "label": "Hitmontop"}, {"value": "238", "label": "Smoochum"}, {"value": "239", "label": "Elekid"}, {"value": "240", "label": "Magby"}, {"value": "241", "label": "Miltank"}, {"value": "242", "label": "Blissey"}, {"value": "243", "label": "Raikou"}, {"value": "244", "label": "Entei"}, {"value": "245", "label": "Suicune"}, {"value": "246", "label": "Larvitar"}, {"value": "247", "label": "Pupitar"}, {"value": "248", "label": "Tyranitar"}, {"value": "249", "label": "Lugia"}, {"value": "250", "label": "Ho-Oh"}, {"value": "251", "label": "Celebi"}, {"value": "252", "label": "Azurill"}, {"value": "253", "label": "Wynaut"}, {"value": "254", "label": "Ambipom"}, {"value": "255", "label": "Mismagius"}, {"value": "256", "label": "Honchkrow"}, {"value": "257", "label": "Bonsly"}, {"value": "258", "label": "Mime Jr."}, {"value": "259", "label": "Happiny"}, {"value": "260", "label": "Munchlax"}, {"value": "261", "label": "Mantyke"}, {"value": "262", "label": "Weavile"}, {"value": "263", "label": "Magnezone"}, {"value": "264", "label": "Lickilicky"}, {"value": "265", "label": "Rhyperior"}, {"value": "266", "label": "Tangrowth"}, {"value": "267", "label": "Electivire"}, {"value": "268", "label": "Magmortar"}, {"value": "269", "label": "Togekiss"}, {"value": "270", "label": "Yanmega"}, {"value": "271", "label": "Leafeon"}, {"value": "272", "label": "Glaceon"}, {"value": "273", "label": "Gliscor"}, {"value": "274", "label": "Mamoswine"}, {"value": "275", "label": "Porygon-Z"}, {"value": "276", "label": "Treecko"}, {"value": "277", "label": "Grovyle"}, {"value": "278", "label": "Sceptile"}, {"value": "279", "label": "Torchic"}, {"value": "280", "label": "Combusken"}, {"value": "281", "label": "Blaziken"}, {"value": "282", "label": "Mudkip"}, {"value": "283", "label": "Marshtomp"}, {"value": "284", "label": "Swampert"}, {"value": "285", "label": "Ralts"}, {"value": "286", "label": "Kirlia"}, {"value": "287", "label": "Gardevoir"}, {"value": "288", "label": "Gallade"}, {"value": "289", "label": "Shedinja"}, {"value": "290", "label": "Kecleon"}, {"value": "291", "label": "Beldum"}, {"value": "292", "label": "Metang"}, {"value": "293", "label": "Metagross"}, {"value": "294", "label": "Bidoof"}, {"value": "295", "label": "Spiritomb"}, {"value": "296", "label": "Lucario"}, {"value": "297", "label": "Gible"}, {"value": "298", "label": "Gabite"}, {"value": "299", "label": "Garchomp"}, {"value": "300", "label": "Mawile"}, {"value": "301", "label": "Lileep"}, {"value": "302", "label": "Cradily"}, {"value": "303", "label": "Anorith"}, {"value": "304", "label": "Armaldo"}, {"value": "305", "label": "Cranidos"}, {"value": "306", "label": "Rampardos"}, {"value": "307", "label": "Shieldon"}, {"value": "308", "label": "Bastiodon"}, {"value": "309", "label": "Slaking"}, {"value": "310", "label": "Absol"}, {"value": "311", "label": "Duskull"}, {"value": "312", "label": "Dusclops"}, {"value": "313", "label": "Dusknoir"}, {"value": "314", "label": "Wailord"}, {"value": "315", "label": "Arceus"}, {"value": "316", "label": "Turtwig"}, {"value": "317", "label": "Grotle"}, {"value": "318", "label": "Torterra"}, {"value": "319", "label": "Chimchar"}, {"value": "320", "label": "Monferno"}, {"value": "321", "label": "Infernape"}, {"value": "322", "label": "Piplup"}, {"value": "323", "label": "Prinplup"}, {"value": "324", "label": "Empoleon"}, {"value": "325", "label": "Nosepass"}, {"value": "326", "label": "Probopass"}, {"value": "327", "label": "Honedge"}, {"value": "328", "label": "Doublade"}, {"value": "329", "label": "Aegislash"}, {"value": "330", "label": "Pawniard"}, {"value": "331", "label": "Bisharp"}, {"value": "332", "label": "Luxray"}, {"value": "333", "label": "Aggron"}, {"value": "334", "label": "Flygon"}, {"value": "335", "label": "Milotic"}, {"value": "336", "label": "Salamence"}, {"value": "337", "label": "Klinklang"}, {"value": "338", "label": "Zoroark"}, {"value": "339", "label": "Sylveon"}, {"value": "340", "label": "Kyogre"}, {"value": "341", "label": "Groudon"}, {"value": "342", "label": "Rayquaza"}, {"value": "343", "label": "Dialga"}, {"value": "344", "label": "Palkia"}, {"value": "345", "label": "Giratina"}, {"value": "346", "label": "Regigigas"}, {"value": "347", "label": "Darkrai"}, {"value": "348", "label": "Genesect"}, {"value": "349", "label": "Reshiram"}, {"value": "350", "label": "Zekrom"}, {"value": "351", "label": "Kyurem"}, {"value": "352", "label": "Roserade"}, {"value": "353", "label": "Drifblim"}, {"value": "354", "label": "Lopunny"}, {"value": "355", "label": "Breloom"}, {"value": "356", "label": "Ninjask"}, {"value": "357", "label": "Banette"}, {"value": "358", "label": "Rotom"}, {"value": "359", "label": "Reuniclus"}, {"value": "360", "label": "Whimsicott"}, {"value": "361", "label": "Krookodile"}, {"value": "362", "label": "Cofagrigus"}, {"value": "363", "label": "Galvantula"}, {"value": "364", "label": "Ferrothorn"}, {"value": "365", "label": "Litwick"}, {"value": "366", "label": "Lampent"}, {"value": "367", "label": "Chandelure"}, {"value": "368", "label": "Haxorus"}, {"value": "369", "label": "Golurk"}, {"value": "370", "label": "Pyukumuku"}, {"value": "371", "label": "Klefki"}, {"value": "372", "label": "Talonflame"}, {"value": "373", "label": "Mimikyu"}, {"value": "374", "label": "Volcarona"}, {"value": "375", "label": "Deino"}, {"value": "376", "label": "Zweilous"}, {"value": "377", "label": "Hydreigon"}, {"value": "378", "label": "Latias"}, {"value": "379", "label": "Latios"}, {"value": "380", "label": "Deoxys"}, {"value": "381", "label": "Jirachi"}, {"value": "382", "label": "Nincada"}, {"value": "383", "label": "Bibarel"}, {"value": "384", "label": "Riolu"}, {"value": "385", "label": "Slakoth"}, {"value": "386", "label": "Vigoroth"}, {"value": "387", "label": "Wailmer"}, {"value": "388", "label": "Shinx"}, {"value": "389", "label": "Luxio"}, {"value": "390", "label": "Aron"}, {"value": "391", "label": "Lairon"}, {"value": "392", "label": "Trapinch"}, {"value": "393", "label": "Vibrava"}, {"value": "394", "label": "Feebas"}, {"value": "395", "label": "Bagon"}, {"value": "396", "label": "Shelgon"}, {"value": "397", "label": "Klink"}, {"value": "398", "label": "Klang"}, {"value": "399", "label": "Zorua"}, {"value": "400", "label": "Budew"}, {"value": "401", "label": "Roselia"}, {"value": "402", "label": "Drifloon"}, {"value": "403", "label": "Buneary"}, {"value": "404", "label": "Shroomish"}, {"value": "405", "label": "Shuppet"}, {"value": "406", "label": "Solosis"}, {"value": "407", "label": "Duosion"}, {"value": "408", "label": "Cottonee"}, {"value": "409", "label": "Sandile"}, {"value": "410", "label": "Krokorok"}, {"value": "411", "label": "Yamask"}, {"value": "412", "label": "Joltik"}, {"value": "413", "label": "Ferroseed"}, {"value": "414", "label": "Axew"}, {"value": "415", "label": "Fraxure"}, {"value": "416", "label": "Golett"}, {"value": "417", "label": "Fletchling"}, {"value": "418", "label": "Fletchinder"}, {"value": "419", "label": "Larvesta"}, {"value": "420", "label": "Stunfisk"}, {"value": "421", "label": "Sableye"}, {"value": "422", "label": "Venipede"}, {"value": "423", "label": "Whirlipede"}, {"value": "424", "label": "Scolipede"}, {"value": "425", "label": "Tyrunt"}, {"value": "426", "label": "Tyrantrum"}, {"value": "427", "label": "Snorunt"}, {"value": "428", "label": "Glalie"}, {"value": "429", "label": "Froslass"}, {"value": "430", "label": "Oricorio Baile Style"}, {"value": "431", "label": "Oricorio Pom-Pom Style"}, {"value": "432", "label": "Oricorio Pa'u Style"}, {"value": "433", "label": "Oricorio Sensu Style"}, {"value": "434", "label": "Trubbish"}, {"value": "435", "label": "Garbodor"}, {"value": "436", "label": "Carvanha"}, {"value": "437", "label": "Sharpedo"}, {"value": "438", "label": "Phantump"}, {"value": "439", "label": "Trevenant"}, {"value": "440", "label": "Noibat"}, {"value": "441", "label": "Noivern"}, {"value": "442", "label": "Swablu"}, {"value": "443", "label": "Altaria"}, {"value": "444", "label": "Goomy"}, {"value": "445", "label": "Sliggoo"}, {"value": "446", "label": "Goodra"}, {"value": "447", "label": "Regirock"}, {"value": "448", "label": "Regice"}, {"value": "449", "label": "Registeel"}, {"value": "450", "label": "Necrozma"}, {"value": "451", "label": "Stufful"}, {"value": "452", "label": "Bewear"}, {"value": "453", "label": "Dhelmise"}, {"value": "454", "label": "Mareanie"}, {"value": "455", "label": "Toxapex"}, {"value": "456", "label": "Hawlucha"}, {"value": "457", "label": "Cacnea"}, {"value": "458", "label": "Cacturne"}, {"value": "459", "label": "Sandygast"}, {"value": "460", "label": "Palossand"}, {"value": "461", "label": "Amaura"}, {"value": "462", "label": "Aurorus"}, {"value": "463", "label": "Rockruff"}, {"value": "464", "label": "Lycanroc Midday"}, {"value": "465", "label": "Lycanroc Midnight"}, {"value": "466", "label": "Meloetta"}, {"value": "467", "label": "Meloetta"}, {"value": "468", "label": "Cresselia"}, {"value": "469", "label": "Bruxish"}, {"value": "470", "label": "Ultra Necrozma"}]
+    const customStyles = {
+        container: provided => ({
+            ...provided,
+            width: `10rem`,
+            minWidth: `10rem`
+        })
+    };
+
 
     return (
         <div
             className="bg-white rounded-xl border-gray-400 border-[0.02rem] mx-auto justify-items-center gap-y-0 w-[90%] md:w-[70%] mt-8">
-            <h1 className="font-bold text-blue-600 text-2xl z-100 text-center">Your Options</h1>
+            <h1 className="font-bold text-blue-600 text-2xl text-center">Your Options</h1>
             <div className="mx-auto grid justify-items-center gap-y-0 w-[70%] mt-8 gap-[18rem]">
-                <div className="py-4 border border-slate-400 rounded-lg w-64 mb-8">
-                    <div className="flex items-center justify-center w-full">
-                        <Image
-                            src="/images/head.png"
-                            alt="head"
-                            height="577"
-                            width="777"
-                            className="h-24 w-32"
-                        />
-                        <select id="headSelect" defaultValue={""}>
-                            <option key="" disabled={true}></option>
-                            <option key="1">Bulbasaur</option>
-                            <option key="2">Ivysaur</option>
-                            <option key="25">Pikachu</option>
-                        </select>
-                    </div>
+                <div className="border border-slate-400 rounded-lg mb-8">
+                    <div className="py-2 w-72">
+                        <div className="flex items-center justify-center w-full">
+                            <Image
+                                src="/images/head.png"
+                                alt="head"
+                                height="577"
+                                width="777"
+                                className="h-24 w-32"
+                            />
+                            <Select
+                                placeholder="Select Fusion Head"
+                                options={options}
+                                onChange={(val) => setHeadValue({target: {value: val}})}
+                                className="resize-none pr-4"
+                                styles={customStyles}
+                            />
+                        </div>
 
-                    <div className="flex items-center justify-center w-full">
-                        <Image
-                            src="/images/body.png"
-                            alt="head"
-                            height="577"
-                            width="777"
-                            className="h-24 w-32"
-                        />
-                        <select id="bodySelect" defaultValue={""}>
-                            <option key="" disabled={true}></option>
-                            <option key="1">Bulbasaur</option>
-                            <option key="2">Ivysaur</option>
-                            <option key="25">Pikachu</option>
-                        </select>
-                    </div>
-                    <div className="flex items-center justify-center w-full pb-2 py-4">
-                        <button className="bg-blue-500 text-white font-semibold rounded-md px-4"
-                                onClick={() => addPokemon("6.6")}>Add to Team
-                        </button>
+                        <div className="flex items-center justify-center w-full">
+                            <Image
+                                src="/images/body.png"
+                                alt="head"
+                                height="577"
+                                width="777"
+                                className="h-24 w-32"
+                            />
+                            <Select
+                                placeholder="Select Fusion Body"
+                                options={options}
+                                onChange={(val) => setBodyValue({target: {value: val}})}
+                                className="resize-none pr-4"
+                                styles={customStyles}
+                            />
+                        </div>
+                        <div className="flex items-center justify-center w-full pb-2 py-4">
+                            <button className="bg-blue-500 text-white font-semibold rounded-md px-4"
+                                    onClick={() => addPokemonToTeam("6.6")}>Add to Team
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
