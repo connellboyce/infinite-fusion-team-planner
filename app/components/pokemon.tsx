@@ -18,7 +18,7 @@ const Pokemon = ({id, index, removePokemon}: pokemonProps) => {
     useEffect(() => {
         try {
             if({id}.id !== undefined && {id}.id !== "") {
-                fetch(`https://if.daena.me/api/v0/dex/` + {id}.id + `.json`)
+                fetch(`https://www.fusiondex.org/api/v0/dex/` + {id}.id + `.json`)
                     .then(res => res.json())
                     .then((data) => {
                             setName(data?.pokemon.name)
