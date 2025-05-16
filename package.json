@@ -1,6 +1,7 @@
 {
   "name": "infinite-fusion-team-planner",
   "version": "0.1.0",
+  "description": "A team planner utility for Pokemon Infinite Fusion",
   "private": true,
   "scripts": {
     "dev": "next dev",
