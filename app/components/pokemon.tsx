@@ -15,38 +15,46 @@ const Pokemon = ({id, index, removePokemon}: pokemonProps) => {
     const [type2, setType2] = useState("NONE");
     const [imageUrl, setImageUrl] = useState("/images/egg.png");
 
+    const resetPokemonState = () => {
+        setName("--");
+        setType1("NONE");
+        setType2("NONE");
+        setImageUrl("/images/egg.png");
+        setIsSelected(false);
+    };
+
+    const applyPokemonData = (data: { pokemon?: { name?: string; type?: string[] }; sprites?: Array<{ image_url?: string }> }) => {
+        const pokemon = data?.pokemon ?? {};
+        const types = Array.isArray(pokemon.type) && pokemon.type.length > 0 ? pokemon.type : ["NONE"];
+
+        setName(pokemon.name ?? "--");
+        setType1(types[0] ?? "NONE");
+        setType2(types[1] ?? types[0] ?? "NONE");
+        setImageUrl(data?.sprites?.[0]?.image_url ?? "/images/egg.png");
+        setIsSelected(true);
+    };
+
     useEffect(() => {
-        try {
-            if({id}.id !== undefined && {id}.id !== "") {
-                fetch(`https://www.fusiondex.org/api/v0/dex/` + {id}.id + `.json`)
-                    .then(res => res.json())
-                    .then((data) => {
-                            setName(data?.pokemon.name)
-                            setType1(data?.pokemon.type[0])
-                            setType2IfPresent(data?.pokemon.type)
-                            setImageUrl(data?.sprites[0].image_url)
-                            setIsSelected(true)
-                        }
-                    )
-            } else {
-                setName("--")
-                setType1("NONE")
-                setType2IfPresent(["NONE"])
-                setImageUrl("/images/egg.png")
-                setIsSelected(false)
-            }
-        } catch (error) {
-
+        if (id === undefined || id === "") {
+            resetPokemonState();
+            return;
         }
+
+        fetch(`/api/fusiondex/${encodeURIComponent(id)}`)
+            .then(async (res) => {
+                if (!res.ok) {
+                    throw new Error(`FusionDex lookup failed for ${id}`);
+                }
+
+                return res.json();
+            })
+            .then((data) => {
+                applyPokemonData(data);
+            })
+            .catch(() => {
+                resetPokemonState();
+            });
     }, [id]);
-
-    const setType2IfPresent = (type: string[]) => {
-        if (type.length < 2) {
-            setType2(type[0]);
-        } else {
-            setType2(type[1]);
-        }
-    }
 
     const mapTypeToColor = (type: string): string => {
         if (type === "BUG") {
@@ -97,13 +105,13 @@ const Pokemon = ({id, index, removePokemon}: pokemonProps) => {
     }
 
     return (
-        <div className="px-4 pb-8 pt-12">
+        <div className="px-0 pb-0 pt-0 lg:px-4 lg:pb-8 lg:pt-12">
             <div className={isSelected ? "cursor-not-allowed hover:animate-shake": ""} onClick={removeIfSelected}>
-                <div>
+                <div className="scale-[0.8] origin-top transform-gpu xl:scale-[0.85]">
                     <Pokeball color1={mapTypeToColor(type1)} color2={mapTypeToColor(type2)} imageUrl={imageUrl}/>
-                </div>
-                <div className="py-4">
-                    <SpeciesCard name={name} color={mapTypeToColor(type1)} type1={type1} type2={type2}/>
+                    <div className="py-1 lg:py-2">
+                        <SpeciesCard name={name} color={mapTypeToColor(type1)} type1={type1} type2={type2}/>
+                    </div>
                 </div>
             </div>
         </div>
