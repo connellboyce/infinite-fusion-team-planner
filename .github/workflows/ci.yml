@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Keep in sync with the Node version in the Amplify build image so
+      # lockfile/engine mismatches fail here before they fail in Amplify.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.18.0
+          cache: npm
+
+      # Same install command Amplify runs in preBuild.
+      - run: npm ci
+
+      - run: npm run lint
+
+      - run: npm run build
+        # Placeholders: these only need to be defined for module init to
+        # succeed. The Sanity fetch at prerender is caught and no email is sent.
+        env:
+          NEXT_PUBLIC_SANITY_PROJECT_ID: ci-placeholder
+          NEXT_PUBLIC_SANITY_DATASET: ci-placeholder
+          RESEND_API_KEY: re_ci_placeholder
